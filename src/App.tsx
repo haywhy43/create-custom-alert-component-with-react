@@ -1,8 +1,10 @@
-import React from 'react';
-import logo from './logo.svg';
-import './App.css';
+import logo from "./logo.svg";
+import "./App.css";
+import { useAlert } from "./components/Alert";
 
 function App() {
+  const { alert } = useAlert();
+
   return (
     <div className="App">
       <header className="App-header">
@@ -10,14 +12,64 @@ function App() {
         <p>
           Edit <code>src/App.tsx</code> and save to reload.
         </p>
-        <a
-          className="App-link"
-          href="https://reactjs.org"
-          target="_blank"
-          rel="noopener noreferrer"
+        <button
+          onClick={() =>
+            alert({
+              title: "Notify",
+              message: "Notification message",
+              autoClose: true,
+            })
+          }
         >
-          Learn React
-        </a>
+          Notify
+        </button>
+
+        <button
+          onClick={() =>
+            alert({
+              title: "Prompt without feedback",
+              message: "Question to ask user before proceeding",
+              actions: [
+                {
+                  text: "Cancel",
+                },
+                {
+                  text: "Confirm",
+                  callback: () => {
+                    console.log('Confirmed')
+                    // action to proceed
+                  },
+                },
+              ],
+            })
+          }
+        >
+          Prompt without Feedback
+        </button>
+        <button
+          onClick={() =>
+            alert({
+              title: "Prompt with feedback",
+              message:
+                "Question to ask user before proceeding. Expecting message from user",
+              inputProps: { placeholder: "Enter feedback" },
+              actions: [
+                {
+                  text: "Cancel",
+                },
+                {
+                  text: "Confirm",
+                  callback: (feedback) => {
+                    console.log(feedback);
+                    // action to proceed
+                  },
+                },
+              ],
+            })
+          }
+        >
+          Prompt with Feedback
+        </button>
       </header>
     </div>
   );
